@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /Users/dmitriy/Developing/cpp-crossplatform-app/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/opt/local/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -117,24 +127,50 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named boost_test
+# Target rules for targets named main_app
 
 # Build rule for target.
-boost_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boost_test
-.PHONY : boost_test
+main_app: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main_app
+.PHONY : main_app
 
 # fast build rule for target.
-boost_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/boost_test.dir/build.make CMakeFiles/boost_test.dir/build
-.PHONY : boost_test/fast
+main_app/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_app.dir/build.make CMakeFiles/main_app.dir/build
+.PHONY : main_app/fast
+
+#=============================================================================
+# Target rules for targets named gtest_test
+
+# Build rule for target.
+gtest_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_test
+.PHONY : gtest_test
+
+# fast build rule for target.
+gtest_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/build
+.PHONY : gtest_test/fast
+
+#=============================================================================
+# Target rules for targets named catch2_test
+
+# Build rule for target.
+catch2_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 catch2_test
+.PHONY : catch2_test
+
+# fast build rule for target.
+catch2_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catch2_test.dir/build.make CMakeFiles/catch2_test.dir/build
+.PHONY : catch2_test/fast
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/boost_test.dir/build.make CMakeFiles/boost_test.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_app.dir/build.make CMakeFiles/main_app.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -142,7 +178,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/boost_test.dir/build.make CMakeFiles/boost_test.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_app.dir/build.make CMakeFiles/main_app.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -150,8 +186,56 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/boost_test.dir/build.make CMakeFiles/boost_test.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_app.dir/build.make CMakeFiles/main_app.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+tests/catch2_test.o: tests/catch2_test.cpp.o
+.PHONY : tests/catch2_test.o
+
+# target to build an object file
+tests/catch2_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catch2_test.dir/build.make CMakeFiles/catch2_test.dir/tests/catch2_test.cpp.o
+.PHONY : tests/catch2_test.cpp.o
+
+tests/catch2_test.i: tests/catch2_test.cpp.i
+.PHONY : tests/catch2_test.i
+
+# target to preprocess a source file
+tests/catch2_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catch2_test.dir/build.make CMakeFiles/catch2_test.dir/tests/catch2_test.cpp.i
+.PHONY : tests/catch2_test.cpp.i
+
+tests/catch2_test.s: tests/catch2_test.cpp.s
+.PHONY : tests/catch2_test.s
+
+# target to generate assembly for a file
+tests/catch2_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/catch2_test.dir/build.make CMakeFiles/catch2_test.dir/tests/catch2_test.cpp.s
+.PHONY : tests/catch2_test.cpp.s
+
+tests/gtest_test.o: tests/gtest_test.cpp.o
+.PHONY : tests/gtest_test.o
+
+# target to build an object file
+tests/gtest_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/tests/gtest_test.cpp.o
+.PHONY : tests/gtest_test.cpp.o
+
+tests/gtest_test.i: tests/gtest_test.cpp.i
+.PHONY : tests/gtest_test.i
+
+# target to preprocess a source file
+tests/gtest_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/tests/gtest_test.cpp.i
+.PHONY : tests/gtest_test.cpp.i
+
+tests/gtest_test.s: tests/gtest_test.cpp.s
+.PHONY : tests/gtest_test.s
+
+# target to generate assembly for a file
+tests/gtest_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/tests/gtest_test.cpp.s
+.PHONY : tests/gtest_test.cpp.s
 
 # Help Target
 help:
@@ -161,10 +245,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... boost_test"
+	@echo "... test"
+	@echo "... catch2_test"
+	@echo "... gtest_test"
+	@echo "... main_app"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... tests/catch2_test.o"
+	@echo "... tests/catch2_test.i"
+	@echo "... tests/catch2_test.s"
+	@echo "... tests/gtest_test.o"
+	@echo "... tests/gtest_test.i"
+	@echo "... tests/gtest_test.s"
 .PHONY : help
 
 
