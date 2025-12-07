@@ -2,31 +2,39 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "Configure CMake",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "-B",
-                "build",
-                "-S",
-                "."
+                "${workspaceFolder}/build",
+                "-DCMAKE_BUILD_TYPE=Debug"
             ],
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
-                "echo": true,
                 "reveal": "always"
             }
         },
         {
-            "label": "compile",
+            "label": "Build All",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "--build",
-                "build"
+                "${workspaceFolder}/build",
+                "--config",
+                "Debug"
             ],
             "group": "build",
-            "dependsOn": "build"
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/build && ctest --output-on-failure"
         }
     ]
 }

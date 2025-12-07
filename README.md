@@ -1,16 +1,17 @@
-# На Macbook:
-```bash
-chmod +x scripts/find_boost_mac.sh
-mkdir build && cd build
-cmake ..
-make
-./boost_test
-```
+# Удалите старый build
+cd /Users/dmitriy/Developing/cpp-crossplatform-app
+rm -rf build
 
-# На Ubuntu:
-```bash
+# Создайте новый build
 mkdir build && cd build
+
+# Сгенерируйте проект
 cmake ..
-make
-./boost_test
-```
+
+# Соберите
+cmake --build .
+
+# Запустите приложения
+./main_app
+./gtest_test
+./catch2_test
