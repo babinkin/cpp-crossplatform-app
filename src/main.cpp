@@ -10,7 +10,31 @@
 #include <boost/optional.hpp>
 #include <boost/any.hpp>
 
-int main() {
+// gtest
+#include <gtest/gtest.h>
+
+int add(int a, int b) {
+    return a + b;
+}
+
+// Тестовый случай
+TEST(TestSuite, BasicTest) {
+    EXPECT_EQ(2 + 2, 4);
+    ASSERT_TRUE(true);
+}
+
+TEST(TestSuite, addFunctionTest) {
+    EXPECT_EQ(add(2, 3), 5);
+    EXPECT_EQ(add(-1, 1), 0);
+    EXPECT_EQ(add(0, 0), 0);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+
+    
+    
+    
     std::cout << "=== Boost Test Project ===" << std::endl;
     
     // 1. Проверка версии Boost
@@ -62,5 +86,6 @@ int main() {
     std::cout << "Any contains string: " << boost::any_cast<std::string>(anything) << std::endl;
     
     std::cout << "=== All tests completed successfully! ===" << std::endl;
-    return 0;
+    
+    return RUN_ALL_TESTS();
 }
