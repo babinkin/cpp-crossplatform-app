@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 project(BoostTestProject)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Поиск Boost (только заголовочные файлы)
 find_package(Boost 1.70.0 QUIET)
+find_package(GTest REQUIRED)
 
 if(Boost_FOUND)
     message(STATUS "Boost found: ${Boost_VERSION}")
@@ -49,6 +50,8 @@ add_executable(boost_test src/main.cpp)
 
 # Добавляем include директории Boost
 target_include_directories(boost_test PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(boost_test GTest::gtest GTest::gtest_main)
+target_link_libraries(boost_test pthread)
 
 # Для отладки - выводим информацию о компиляции
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
