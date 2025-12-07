@@ -1,3 +1,0 @@
-/Users/dmitriy/Developing/cpp-crossplatform-app/src/CMakeFiles/boost_test.dir
-/Users/dmitriy/Developing/cpp-crossplatform-app/src/CMakeFiles/edit_cache.dir
-/Users/dmitriy/Developing/cpp-crossplatform-app/src/CMakeFiles/rebuild_cache.dir

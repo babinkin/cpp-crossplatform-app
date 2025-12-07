@@ -2,90 +2,52 @@
 #include <vector>
 #include <string>
 
-// Header-only компоненты Boost
+// Проверка Boost
+#ifdef HAS_BOOST
 #include <boost/version.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/format.hpp>
-#include <boost/optional.hpp>
-#include <boost/any.hpp>
+#endif
 
-// gtest
-#include <gtest/gtest.h>
-
-int add(int a, int b) {
-    return a + b;
-}
-
-// Тестовый случай
-TEST(TestSuite, BasicTest) {
-    EXPECT_EQ(2 + 2, 4);
-    ASSERT_TRUE(true);
-}
-
-TEST(TestSuite, addFunctionTest) {
-    EXPECT_EQ(add(2, 3), 5);
-    EXPECT_EQ(add(-1, 1), 0);
-    EXPECT_EQ(add(0, 0), 0);
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-
+int main() {
+    std::cout << "Cross-platform test application\n";
+    std::cout << "===============================\n\n";
     
+    // Проверка компилятора
+    #ifdef __clang__
+    std::cout << "Compiler: Clang " << __clang_major__ << "." << __clang_minor__ << "." << __clang_patchlevel__ << "\n";
+    #elif defined(__GNUC__)
+    std::cout << "Compiler: GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__ << "\n";
+    #else
+    std::cout << "Compiler: Unknown\n";
+    #endif
     
+    std::cout << "C++ standard: " << __cplusplus << "\n\n";
     
-    std::cout << "=== Boost Test Project ===" << std::endl;
-    
-    // 1. Проверка версии Boost
+    // Проверка Boost
+    #ifdef HAS_BOOST
     std::cout << "Boost version: " 
-              << BOOST_VERSION / 100000     << "."  // major version
-              << BOOST_VERSION / 100 % 1000 << "."  // minor version
-              << BOOST_VERSION % 100                // patch level
-              << std::endl;
+              << BOOST_VERSION / 100000 << "."  // major
+              << BOOST_VERSION / 100 % 1000 << "."  // minor
+              << BOOST_VERSION % 100 << "\n";  // patch
     
-    // 2. Тест boost::algorithm
-    std::string test_string = "Hello Boost World";
-    std::cout << "Original string: " << test_string << std::endl;
+    // Простой пример использования Boost
+    std::string text = "Hello Boost World";
+    std::cout << "Original: " << text << "\n";
+    boost::algorithm::to_upper(text);
+    std::cout << "Upper case (Boost): " << text << "\n\n";
+    #else
+    std::cout << "Boost not available or not included\n\n";
+    #endif
     
-    boost::to_upper(test_string);
-    std::cout << "Uppercase: " << test_string << std::endl;
-    
-    boost::to_lower(test_string);
-    std::cout << "Lowercase: " << test_string << std::endl;
-    
-    // 3. Тест boost::lexical_cast
-    try {
-        std::string number_str = "12345";
-        int number = boost::lexical_cast<int>(number_str);
-        std::cout << "String '" << number_str << "' converted to int: " << number << std::endl;
-        
-        std::string back_to_str = boost::lexical_cast<std::string>(number);
-        std::cout << "Int " << number << " converted back to string: '" << back_to_str << "'" << std::endl;
-    } catch (const boost::bad_lexical_cast& e) {
-        std::cout << "Lexical cast error: " << e.what() << std::endl;
+    // Простой пример без Boost для демонстрации
+    std::cout << "Simple C++17 example:\n";
+    std::vector<int> numbers{1, 2, 3, 4, 5};
+    int sum = 0;
+    for (auto n : numbers) {
+        sum += n;
     }
+    std::cout << "Sum of numbers: " << sum << "\n\n";
     
-    // 4. Тест boost::format
-    boost::format fmt("Format test: %1% + %2% = %3%");
-    fmt % 5 % 3 % (5+3);
-    std::cout << fmt.str() << std::endl;
-    
-    // 5. Тест boost::optional
-    boost::optional<int> maybe_number;
-    std::cout << "Optional is initialized: " << (maybe_number ? "true" : "false") << std::endl;
-    
-    maybe_number = 42;
-    std::cout << "Optional value: " << *maybe_number << std::endl;
-    
-    // 6. Тест boost::any
-    boost::any anything = 3.14159;
-    std::cout << "Any contains double: " << boost::any_cast<double>(anything) << std::endl;
-    
-    anything = std::string("Boost any works!");
-    std::cout << "Any contains string: " << boost::any_cast<std::string>(anything) << std::endl;
-    
-    std::cout << "=== All tests completed successfully! ===" << std::endl;
-    
-    return RUN_ALL_TESTS();
+    std::cout << "Application finished successfully!\n";
+    return 0;
 }
